@@ -11,17 +11,23 @@ Executes the Loader with the required parameters (e.g., URLs or paths to payload
 
 Key Functions in Loader.cs:
 
-    ```C#
-      RunPe(byte[] payloadBuffer, string host, string args):
-    ```
-        Core function that handles process hollowing.
-        Uses low-level Windows API calls (e.g., CreateProcess, VirtualAllocEx, WriteProcessMemory) to:
-            Create a new suspended process.
-            Replace the legitimate process image with the payload.
-            Adjust the thread context and resume execution from the payload's entry point.
+    RunPe(byte[] payloadBuffer, string host, string args):
+
+    Core function that handles process hollowing.
+    
+    Uses low-level Windows API calls (e.g., CreateProcess, VirtualAllocEx, WriteProcessMemory) to:
+    
+    Create a new suspended process.
+    
+    Replace the legitimate process image with the payload.
+    
+    Adjust the thread context and resume execution from the payload's entry point.
+    
     Launch(string appurl, string path):
-        Downloads a PE payload from appurl.
-        Calls RunPe to execute the payload using the specified path.
+    
+    Downloads a PE payload from appurl.
+    
+    Calls RunPe to execute the payload using the specified path.
 
 Low-Level Process Hollowing Steps:
 
