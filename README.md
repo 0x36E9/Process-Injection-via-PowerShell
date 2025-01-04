@@ -65,5 +65,24 @@ Passing Parameters:
 
 Ensure parameters like appurl (URL to the payload) and path (target process) are correctly passed when invoking methods.
 
+
+## Advantages of Using a DLL
+
+    Modular Design: The PowerShell script focuses on orchestration, while the DLL encapsulates the complex logic.
+    Reusability: The DLL can be reused across multiple scripts or applications.
+    Dynamic Loading: PowerShell can load and use the DLL at runtime, making it flexible and adaptable to different scenarios.
+
+
+## Example Flow
+
+    1 Setup:
+        Place the Loader.dll and the PowerShell script in the same directory or specify the path to the DLL in the script.
         
+    2 Execute the Script:
+        The PowerShell script loads the DLL, invokes the necessary methods, and triggers the execution of the payload.
+        
+    3 Payload Execution:
+        The DLL performs process hollowing or other techniques as defined in Loader.cs.
+
+Let me know if you'd like a sample PowerShell script template for this integration!
 
