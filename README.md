@@ -81,3 +81,8 @@ Ensure parameters like appurl (URL to the payload) and path (target process) are
 
 Let me know if you'd like a sample PowerShell script template for this integration!
 
+
+## Disclaimer: For Educational Purposes Only
+
+This content is provided for educational purposes only. The author does not endorse or condone the misuse of the techniques described and assumes no responsibility for any actions taken based on this information. Always adhere to applicable laws and ethical guidelines when studying or using such methods.
+
