@@ -46,11 +46,6 @@ PowerShell Script (script.ps1) Integration
 
 Here’s an example of how the PowerShell script might load and interact with the DLL:
 
-Loading the DLL:
-
-    $dllPath = "path\to\Loader.dll"
-    $assembly = [Reflection.Assembly]::LoadFrom($dllPath)
-
 Invoking the Launch Method:
 
 Use the fully qualified namespace and class name (Loader.c_Loader) to call methods:
