@@ -7,5 +7,28 @@ The script.ps1 likely acts as the initiating script, which either:
 Downloads the compiled Loader binary.
 Executes the Loader with the required parameters (e.g., URLs or paths to payloads).
 
-## Building The Source Executable
+## Technical Details of Loader.cs
+
+Key Functions in Loader.cs:
+
+    ```C#
+      RunPe(byte[] payloadBuffer, string host, string args):
+    ```
+        Core function that handles process hollowing.
+        Uses low-level Windows API calls (e.g., CreateProcess, VirtualAllocEx, WriteProcessMemory) to:
+            Create a new suspended process.
+            Replace the legitimate process image with the payload.
+            Adjust the thread context and resume execution from the payload's entry point.
+    Launch(string appurl, string path):
+        Downloads a PE payload from appurl.
+        Calls RunPe to execute the payload using the specified path.
+
+Low-Level Process Hollowing Steps:
+
+    A target process is created in a suspended state (CreateProcess).
+    The memory image of the target process is unmapped (ZwUnmapViewOfSection).
+    Memory is allocated in the target process (VirtualAllocEx) for the payload.
+    The payload is written into the target process memory (WriteProcessMemory).
+    The thread context is modified to point to the entry point of the payload (SetThreadContext).
+    The process thread is resumed (ResumeThread), executing the payload.
 
